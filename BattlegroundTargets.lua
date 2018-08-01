@@ -719,8 +719,8 @@ local rangeDisplay = { -- RANGE_DISP_LAY
 }
 
 local Textures = {}
-Textures.AddonIcon     = "Interface\\AddOns\\BattlegroundTargets\\BattlegroundTargets-texture-button"
-Textures.Path          = "Interface\\AddOns\\BattlegroundTargets\\BattlegroundTargets-texture-icons"
+Textures.AddonIcon     = "Interface\\AddOns\\BattlegroundTargets2\\BattlegroundTargets-texture-button"
+Textures.Path          = "Interface\\AddOns\\BattlegroundTargets2\\BattlegroundTargets-texture-icons"
 Textures.RoleIcon      ={{0.75, 1, 0,    0.25}, -- {48/64, 64/64,  0/64, 16/64} -- 1 HEALER
                          {0.75, 1, 0.25, 0.5},  -- {48/64, 64/64, 16/64, 32/64} -- 2 TANK
                          {0.75, 1, 0.5,  0.75}, -- {48/64, 64/64, 32/64, 48/64} -- 3 DAMAGER
@@ -5368,7 +5368,7 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 function BattlegroundTargets:OptionsFrameHide()
-	PlaySound("igQuestListClose")
+	PlaySound(SOUNDKIT.IG_QUEST_LIST_CLOSE);
 	isConfig = false
 	BattlegroundTargets:EventRegister()
 	TEMPLATE.EnableTextButton(GVAR.InterfaceOptions.CONFIG)
@@ -5391,7 +5391,7 @@ end
 function BattlegroundTargets:OptionsFrameShow()
 	local BattlegroundTargets_Options = BattlegroundTargets_Options
 
-	PlaySound("igQuestListOpen")
+	PlaySound(SOUNDKIT.IG_QUEST_LIST_OPEN)
 	isConfig = true
 	BattlegroundTargets:EventUnregister()
 	TEMPLATE.DisableTextButton(GVAR.InterfaceOptions.CONFIG)
@@ -8224,7 +8224,7 @@ function BattlegroundTargets:CheckFlagCarrierCHECK(unitID, unitName) -- FLAGSPY
 
 		-- enemy buff & debuff check
 		for i = 1, 40 do
-			local _, _, _, _, _, _, _, _, _, _, spellId = UnitBuff(unitID, i)
+			local _, _, _, _, _, _, _, _, _, spellId = UnitBuff(unitID, i)
 			if not spellId then break end
 			if flagIDs[spellId] then
 				DATA.Enemy.hasFlag = unitName
@@ -8232,7 +8232,7 @@ function BattlegroundTargets:CheckFlagCarrierCHECK(unitID, unitName) -- FLAGSPY
 				flags = flags + 1
 
 				for j = 1, 40 do
-					local _, _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(unitID, j)
+					local _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(unitID, j)
 					if not spellId then break end
 					if debuffIDs[spellId] then
 						flagDebuff = count
@@ -8264,7 +8264,7 @@ function BattlegroundTargets:CheckFlagCarrierCHECK(unitID, unitName) -- FLAGSPY
 			return
 		end
 		for i = 1, 40 do
-			local _, _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff(unitID, i)
+			local _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff(unitID, i)
 			--print(i, spellId, val2, "#", UnitDebuff(unitID, i))
 			if not spellId then break end
 			if orbIDs[spellId] then
@@ -8316,14 +8316,14 @@ function BattlegroundTargets:CheckFlagCarrierSTART() -- FLAGSPY
 			for num = 1, GetNumGroupMembers() do
 				local unitID = "raid"..num
 				for i = 1, 40 do
-					local _, _, _, _, _, _, _, _, _, _, spellId = UnitBuff(unitID, i)
+					local _, _, _, _, _, _, _, _, _, spellId = UnitBuff(unitID, i)
 					if not spellId then break end
 					if flagIDs[spellId] then
 						flagDebuff = 0
 						flags = 1
 
 						for j = 1, 40 do
-							local _, _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(unitID, j)
+							local _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(unitID, j)
 							if not spellId then break end
 							if debuffIDs[spellId] then
 								flagDebuff = count
@@ -8360,7 +8360,7 @@ function BattlegroundTargets:CheckFlagCarrierSTART() -- FLAGSPY
 		-- friend debuff check
 		for num = 1, GetNumGroupMembers() do
 			for i = 1, 40 do
-				local _, _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff("raid"..num, i)
+				local _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff("raid"..num, i)
 				if not spellId then break end
 				if orbIDs[spellId] then
 					flags = flags + 1 -- FLAG_TOK_CHK
@@ -8518,7 +8518,7 @@ function BattlegroundTargets:CarrierDebuffCheck(side, button, uID, uName) -- car
 	if isFlagBG > 0 and isFlagBG < 5 then
 		-- flag
 		for i = 1, 40 do
-			local _, _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(uID, i)
+			local _, _, count, _, _, _, _, _, _, spellId = UnitDebuff(uID, i)
 			--print(uID, uName, i, "#", spellId, count, "#", UnitDebuff(uID, i))
 			if debuffIDs[spellId] then
 				flagDebuff = count
@@ -8530,7 +8530,7 @@ function BattlegroundTargets:CarrierDebuffCheck(side, button, uID, uName) -- car
 	elseif isFlagBG == 5 then
 		-- orb
 		for i = 1, 40 do
-			local _, _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff(uID, i)
+			local _, _, _, _, _, _, _, _, _, spellId, _, _, _, _, val2 = UnitDebuff(uID, i)
 			--print(uID, uName, i, "#", spellId, val2, "#", UnitDebuff(uID, i))
 			if orbIDs[spellId] then
 				local hasflg
@@ -9825,7 +9825,7 @@ local function OnEvent(self, event, ...)
 		end
 
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, clEvent, _, _, sourceName, sourceFlags, _, _, destName, destFlags, _, spellId = ...
+		local _, clEvent, _, _, sourceName, sourceFlags, _, _, destName, destFlags, _, spellId = CombatLogGetCurrentEventInfo();
 		if not sourceFlags or band(sourceFlags, 0x00000400) == 0 then return end
 		CombatLogPVPTrinketCheck(clEvent, spellId, sourceName)
 		if not destFlags or band(destFlags, 0x00000400) == 0 then return end

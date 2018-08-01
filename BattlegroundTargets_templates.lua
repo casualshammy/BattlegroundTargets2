@@ -19,7 +19,7 @@ prg.TEMPLATE = TEMPLATE
 -- -------------------------------------------------------------------------- --
 
 local Textures = {}
-Textures.Path          = "Interface\\AddOns\\BattlegroundTargets\\BattlegroundTargets-texture-icons"
+Textures.Path          = "Interface\\AddOns\\BattlegroundTargets2\\BattlegroundTargets-texture-icons"
 Textures.SliderKnob    = {0.578125, 0.75,     0.734375, 1}        -- {37/64, 48/64, 47/64, 64/64}
 Textures.SliderBG_Lnor = {0.015625, 0.09375,  0.578125, 0.671875} -- { 1/64,  6/64, 37/64, 43/64}
 Textures.SliderBG_Mnor = {0.109375, 0.125,    0.578125, 0.671875} -- { 7/64,  8/64, 37/64, 43/64}
