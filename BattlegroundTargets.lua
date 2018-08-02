@@ -154,7 +154,6 @@ local IsSpellInRange = IsSpellInRange
 local IsSpellKnown = IsSpellKnown
 local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local SetBattlefieldScoreFaction = SetBattlefieldScoreFaction
-local SetMapToCurrentZone = SetMapToCurrentZone
 local UnitBuff = UnitBuff
 local UnitClass = UnitClass
 local UnitDebuff = UnitDebuff
@@ -408,6 +407,7 @@ local function BuildBattlegroundMapTable()
 		elseif bgID == 708 then mapID[860] = localizedName bgMaps[localizedName] = {bgSize = 10, flagBG = 0} -- Silvershard Mines
 		elseif bgID == 754 then mapID[935] = localizedName bgMaps[localizedName] = {bgSize = 15, flagBG = 4} -- Deepwind Gorge
 		elseif bgID == 789 then                            bgMaps[localizedName] = {bgSize = 40, flagBG = 0} -- Southshore vs Tarren Mill
+		elseif bgID == 894 then mapID[907] = localizedName bgMaps[localizedName] = {bgSize = 10, flagBG = 0} -- Бурлящий берег
 		end
 	end
 end
@@ -7030,8 +7030,7 @@ function BattlegroundTargets:IsBattleground()
 	if not currentBGMap then
 		local wmf = WorldMapFrame
 		if wmf and not wmf:IsShown() then
-			SetMapToCurrentZone()
-			local mapId = GetCurrentMapAreaID()
+			local mapId = C_Map.GetBestMapForUnit("player");
 			mapName = mapID[mapId]
 			if bgMaps[mapName] then
 				currentBGMap = mapName
